@@ -1,0 +1,39 @@
+Q) What is this project, and what problem does it solve?
+-> This is a React-based voice assistant that uses browser speech APIs to recognize voice commands,
+-> speak responses, and fetch information from the web. 
+-> The problem it addresses is hands-free web navigation — it demonstrates how you can use voice input 
+-> to interact with a browser without typing.
+
+Q) Which browser APIs does your project use?
+-> It uses two main Web Speech APIs:
+    -> SpeechRecognition API (window.SpeechRecognition / webkitSpeechRecognition) for converting speech to text.
+    -> SpeechSynthesis API (window.speechSynthesis) for converting text back to speech.
+-> Additionally, it uses the Fetch API to request data from Wikipedia.
+
+Q) How do you handle “open website” commands?
+-> If the recognized text starts with "open ", I extract the site name and check it against a predefined map:
+    const sitesMap = {
+    youtube: "https://www.youtube.com",
+    facebook: "https://www.facebook.com",
+    google: "https://www.google.com",
+    twitter: "https://www.twitter.com",
+    instagram: "https://www.instagram.com",
+    };
+-> If it’s found, I announce “Opening [site]” using text-to-speech, and then use 
+-> window.open(url, "_blank") to open the site in a new tab.
+
+Q) How did you integrate Wikipedia API calls (fetchPersonData)?
+For famous people queries, I use the Wikipedia REST summary API:
+    -> https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(name)}
+If data is valid, I speak it aloud and show it in the UI. If not, I fallback to opening a Google search for that person.
+
+Q) If the user says something irrelevant, how does your app respond?
+-> If the input doesn’t match any predefined commands or known personalities, I simply respond with:
+    -> “Here is the information about [query]”, and then open a Google search tab with that query.
+
+
+
+
+
+
+
